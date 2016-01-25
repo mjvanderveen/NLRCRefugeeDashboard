@@ -1,12 +1,19 @@
 <html>
     <head>
-        <title>3W Dashboard</title>
+        <title>Vluchtelingen</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="css/dc.css"/>
-        <link rel="stylesheet" type="text/css" href="css/site.css"/>
+        <link type="text/css" rel="stylesheet" href="bower_components/materialize/dist/css/materialize.css"  media="screen,projection"/>
+		<link type="text/css" rel="stylesheet" href="bower_components/mdi/css/materialdesignicons.css"  media="screen,projection"/>
+		
+		<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/bootstrap.custom.css">
+		<link href="css/sticky-footer-navbar.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="css/dc.css"/>
         <link rel="stylesheet" type="text/css" href="css/leaflet.css"/>
+		<link rel="stylesheet" type="text/css" href="css/site.css"/>
+
+		
         <script src="js/jquery.js"></script>
         <script src="js/d3.min.js"></script>
         <script src="js/crossfilter.v1.min.js"></script>
@@ -14,70 +21,87 @@
         <script src="js/leaflet.js"></script>  
         <script src="js/dc.leaflet.js"></script>  
         <script src="bower_components/Snap.svg/dist/snap.svg-min.js"></script>	
-<script>
-$(function(){
+		<script type="text/javascript" src="bower_components/materialize/dist/js/materialize.min.js"></script>
 
-	var svg = Snap("#svgrefugeeshelped");
-	var text;
-	Snap.load("img/refugeeshelped.svg", function(f) {
-		svg.append(f);
-		svg.attr({
-			width: 400,
-			height:400
-		});
-		
-		var text = svg.select("#numberrefugees");
-		text.attr({ text: 29500});
-	});
-
-	//var svg = d3.select('#svgrefugeeshelped');
-			
-	//svg.select("#refugeeshelped").text();
-	//var text = svg.select("#refugeeshelped").text("10000");
-});
-
-
-</script>		
     </head>
     <body>
+	
+	<!-- Static navbar -->
+      <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+			<a class="navbar-brand" rel="home" href="#">
+				<img style="max-width:100px; margin-top: -7px;" src="img/nrk_logo.gif"/>
+			</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a id="reset" href="javascript:dc.filterAll();dc.redrawAll();">Reset All</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+      </nav>
+  
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h2 id="title"></h2>
+					
                 </div>
             </div>
             <div id="header" class="row">
                 <div class="col-md-8">
-                    <p id="description"></p>
+					<div id="title"></div>
                 </div>
                 <div class="col-md-1">
-                    <a class="reset btn btn-primary btn-sm" id="reset" href="javascript:dc.filterAll();dc.redrawAll();">Reset All</a>
                 </div>                            
                 <div id="count-info" class="col-md-3">
                     <span class="filter-count "></span> selected out of <span class="total-count "></span> records.
                 </div>                    
             </div>
             <div class="row">
-                <div class="col-md-4  colheight">
+                <div class="col-md-4 colheight">
                     <div class="col-xs-12 removepadding">
-                        <p id="wheretitle">Districten</p>
-                        <div id="hdx-3W-where" class="hdx-3w-chart"></div>                            
+                        <div id="where-chart" class="where-chart"></div>                            
                     </div>
                 </div>
-				<div class="col-md-8 colheight">
+				<div class="col-md-4 colheight">
                     <div class="col-xs-6 removepadding">
-                        <div>
-							<svg id="svgrefugeeshelped" width="100%" height="100%" viewBox="0 0 640 510" preserveAspectRatio="xMaxYmax"></svg>
+                        <div id="svgrefugeeshelped">
+							<img src="img/refugeeshelped.svg" style="width:320px;"/>
+							<h3 class="refugeenumber" id="numberrefugees">29500</h2>
+							<h5 class="refugeenumber subtitle">Vluchtelingen geholpen*</h5>
+							<span class="refugeenumber footnote">* excl. aantal vluchtelingen die een kledingpakket van de Welkom Winkel ontvangen hebben<span>
 						</div>
                     </div>
+                </div>
+				<div class="col-md-4 colheight">
                     <div class="col-xs-6 removepadding">
-                        <p>What (Top 15)</p>
-                        <div id="hdx-3W-what" class="hdx-3w-chart"></div>
+                        <div id="svglogistics">
+							<img src="img/logistiek.svg" style="width:360px;"/>
+							<h3 class="deployments" id="deployments">95</h2>
+							<h3 class="beds" id="beds"></h3>
+						</div>
                     </div>                    
                 </div>
             </div>                        
         </div>
+		<footer class="footer">
+		  <div class="container">
+			<p class="text-muted">&copy; 2015 Copyright Rode Kruis
+                    <a class="grey-text text-lighten-4 right" href="http://www.rodekruis.nl" target="_blank" id="corporateLink">rodekruis.nl</a></p>
+		  </div>
+		</footer>
+	
         <script src="js/site.js"></script> 
+		<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
             
     </body>
 </html>
