@@ -60,6 +60,13 @@ function generateInfographic(config,data,geom){
             .center([0,0])
             .zoom(0)    
             .geojson(geom)
+			.featureOptions({
+								'fillColor': 'white',
+								'color': 'gray',
+								'opacity':0.5,
+								'fillOpacity': 0.5,
+								'weight': 1
+							})
             .colors(['#CCCCCC', config.color])
             .colorDomain([0, 1])
             .colorAccessor(function (d) {
